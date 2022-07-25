@@ -59,7 +59,7 @@
 # 2.1 - Teste 1: Script `Script_teste_01.asm`        
 | Resultado no Kit DE10-Lite | _In System Memory_ |      
 | :---: | :---: |
-| ![Fig 1](./Documentacao_Resultados/Img_Proj01) | ![Fig 2](./Documentacao_Resultados/Out_01_InSystemMemory_Script1.jpg) |
+| ![Fig 1](./Documentacao_Resultados/Img_Proj01.jpg) | ![Fig 2](./Documentacao_Resultados/Out_01_InSystemMemory_Script1.jpg) |
            
  - Script no **arquivo `Script_teste_01.asm`**:       
         
