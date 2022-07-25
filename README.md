@@ -1,7 +1,7 @@
 # TCC em Sistemas Embarcados - Eduardo Alvim        
-| SENAI | RISC-V |
+|    |    |
 | :---: | :---: |
-| ![](./Imagens/Logo_SENAI.jpg) | ![](./Imagens/logo_riscv.png) |
+| ![SENAI](./Imagens/Logo_SENAI.jpg) | ![RISC-V](./Imagens/logo_riscv.png) |
         
  - Arquivos referentes ao projeto da monografia do aluno Eduardo Alvm Guedes Alcoforado.      
  - Faculdade de Tecnologia SENAI "Ancieta".     
