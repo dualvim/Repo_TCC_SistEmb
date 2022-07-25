@@ -1,10 +1,4 @@
 # TCC em Sistemas Embarcados - Eduardo Alvim        
-|    |    |
-| :---: | :---: |
-| ![SENAI](./Imagens/Logo_SENAI.jpg) | ![RISC-V](./Imagens/logo_riscv.png) |
-| ![Quartus Prime](./Imagens/Logo_Quartus.png) | ![Altera e Intel](./Imagens/Logo_Intel_Altera.jpg) |
-| ![MAX 10](./Imagens/Logo_Max10_Altera.jpg) | ![MAX 10](./Imagens/Logo_MAX10_Intel.png) |
-        
  - Arquivos referentes ao projeto da monografia do aluno Eduardo Alvm Guedes Alcoforado.      
  - Faculdade de Tecnologia SENAI "Ancieta".     
  - Curso de **Pós-Graduação em Sistemas Embarcados** - Turma 6 - **6SE**.      
@@ -30,3 +24,10 @@
  - Pasta **`Scripts_asm`**:     
 	- Scripts em Assembly RISC-V com programas usados para testar os projeto que cria uma CPU RISC-V.         
 	 
+
+|    |    |
+| :---: | :---: |
+| ![SENAI](./Imagens/Logo_SENAI.jpg) | ![RISC-V](./Imagens/logo_riscv.png) |
+| ![Quartus Prime](./Imagens/Logo_Quartus.png) | ![Altera e Intel](./Imagens/Logo_Intel_Altera.jpg) |
+| ![MAX 10](./Imagens/Logo_Max10_Altera.jpg) | ![MAX 10](./Imagens/Logo_MAX10_Intel.png) |
+        
