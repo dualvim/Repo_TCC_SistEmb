@@ -1,7 +1,16 @@
 # Projeto 2 - CPU RISC-V que implementa o conjunto de instruções RV32IM:              
          
 # 1 - Sobre esse Projeto:        
-        
+ - Cria um microprocessador RISC-V de 32 bits.      
+ - Memórias:     
+	- **RAM** (_Data Memory_):     
+		- Total: **16 KiB**.      
+		- **Endereços** de memória de **13 bits**.      
+	- **ROM** (_Program Memory_):     
+		- Total: **64 KiB**.      
+		- **Endereços** de memória de **16 bits**.      
+	
+  
 
 ## 1.1 - Arquivos do Projeto e Módulos Especificados dentro de cada um:       
  - Arquivo **`modulos_basicos.sv`**: Módulos de uso geral, não específicos da CPU RISC-V.        
@@ -41,12 +50,14 @@
        
 
 ## 1.2 - Recursos do kit FPGA DE10-Lite usados pelo projeto:       
+![_Compilation Report_](./Documentacao_Resultados/Out_00_CompilationReport.jpg)        
+         
  - Os dados apresentados aqui foram tirados do **_Compilation Report_** do projeto:        
- - Recursos utilizados do CI FPGA **10m50daf484c7g**:       
-	- Elementos Lógicos: **5637**.      
-	- Registradores: **1228**.     
+ - Recursos utilizados do CI FPGA **10M50DAF484C7G**:       
+	- Elementos Lógicos: **5649**.      
+	- Registradores: **1233**.     
 	- Pinos: **41**.     
-	- Bits dos blocos de memória **M9K**: **32736** bits.   
+	- Bits dos blocos de memória **M9K**: **524256** bits.   
 	- _Embedded Multiplier 9-bit elements_: **30**.       
 	 
 
@@ -105,7 +116,7 @@ end: beq  x0, x0, end     # Encerra o programa
        
 
 
-# 2.1 - Teste 1: Script `riscvtest_03B_script3B.s`        
+# 2.2 - Teste 1: Script `riscvtest_03B_script3B.s`        
 | Resultado no Kit DE10-Lite | _In System Memory_ |      
 | :---: | :---: |
 | ![Fig 3](./Documentacao_Resultados/Img_Proj02.jpg) | ![Fig 4](./Documentacao_Resultados/Out_02_InSystemMemory_Script2.jpg) |
