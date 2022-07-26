@@ -2,7 +2,7 @@
          
 # 1 - Sobre esse Projeto:        
  - Cria um microprocessador RISC-V de 32 bits.      
- - Memórias:     
+ - **Memórias**:     
 	- **RAM** (_Data Memory_):     
 		- Total: **16 KiB**.      
 		- **Endereços** de memória de **13 bits**.      
@@ -33,7 +33,7 @@
 	- Módulo **`instr_mem`**: Memória ROM para armazenar os programas. Utiliza os blocos de memória M9K.      
 	- Módulo **`data_mem_single`**: Memória RAM para armazenamento de dados. Utiliza os blocos de memória M9K.     
  - Arquivo **`alu.sv`**: Contém a ALU (_Arithmetic Logic Unit_) da CPU.    
-	- Módulo **`output_flags_alu`**: Móidulo para retornar os _output flags_ das operaç~eos da ALU.      
+	- Módulo **`output_flags_alu`**: Módulo para retornar os _output flags_ das operações da ALU.      
 	- Módulo **`alu`**: ALU implementada na CPU RISC-V.          
  - Arquivo **`modulos_auxiliares_cpu.sv`**: Módulos cuja implementação é específica para a CPU RISC-V desenvolvida nesse projeto.        
 	- Módulo **`instr_fields`**: Decodifica os campos da instrução de 32 bits da ISA RISC-V.      

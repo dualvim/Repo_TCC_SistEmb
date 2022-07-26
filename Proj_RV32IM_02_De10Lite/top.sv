@@ -20,8 +20,8 @@ module top ( input  logic       MAX10_CLK1_50,
 	logic [31:0] WriteData;
 	logic [31:0] DataAdr;
       // --> Instanciacao de um processador RISC-V Single-Cycle
-      main_module #( .DATA_WIDTH(32), .ADDR_W_ROM(16), .ADDR_W_RAM(14), .HEX_FILE("Script_teste_01.txt") ) dut1
-	//main_module #( .DATA_WIDTH(32), .ADDR_W_ROM(16), .ADDR_W_RAM(14), .HEX_FILE("riscvtest_03B_script3B.txt") ) dut1
+      //main_module #( .DATA_WIDTH(32), .ADDR_W_ROM(14), .ADDR_W_RAM(12), .HEX_FILE("Script_teste_01.txt") ) dut1
+	main_module #( .DATA_WIDTH(32), .ADDR_W_ROM(14), .ADDR_W_RAM(12), .HEX_FILE("riscvtest_03B_script3B.txt") ) dut1
 		       ( .clk( MAX10_CLK1_50 ), 
 		         .reset( RST ), 
 		         .mem_write( MemWrite ),
@@ -63,7 +63,6 @@ module top ( input  logic       MAX10_CLK1_50,
 	
 	dig_displ_7_segs dig_val_1 ( .digit(dg1), .segs_dsp(HEX1) );
 	dig_displ_7_segs dig_val_0 ( .digit(dg0), .segs_dsp(HEX0) );
-	
 endmodule
 
 

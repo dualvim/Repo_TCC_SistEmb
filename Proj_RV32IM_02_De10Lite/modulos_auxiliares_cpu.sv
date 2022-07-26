@@ -160,9 +160,6 @@ module alu_dec ( input  logic [6:0] opcode,
                   input  logic [1:0] alu_op,
                   output logic [4:0] alu_ctrl );
 //---------------------------------------------------------------------------------------
-      //logic  r_type_sub;
-      //assign r_type_sub = funct7b5 & opb5;  // TRUE for R-type subtract instruction
-	
 	// Array com o conteudo dos campos das instrucoes
 	logic [11:0] dados_instr;
 	assign dados_instr = {funct7b5, funct7b0, funct3, opcode};

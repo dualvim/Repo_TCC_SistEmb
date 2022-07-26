@@ -1,0 +1,36 @@
+# Módulos especificados nos arquivos do projeto da pasta `Proj_RV32IM_02_De10Lite`:       
+ - Arquivo **`modulos_basicos.sv`**: Módulos de uso geral, não específicos da CPU RISC-V.        
+	- Módulo **`ff_rst`**: _Flip-Flop_ com _RESET_.      
+	- Módulo **`ff_rst_en`**: _Flip-Flop_ com _RESET_ e _ENABLE_.      
+	- Módulo **`mux2`**: Multiplexador 2:1.      
+	- Módulo **`mux3`**: Multiplexador 3:1.      
+	- Módulo **`mux4`**: Multiplexador 4:1.      
+	- Módulo **`dig_displ_7_segs`**: Escreve um determinado valor hexadecimal em um display de 7 segmentos.           
+	- Módulo **`logical_oper_alu`**: Resultado das operações lógicas `and`, `or` e `xor`.      
+	- Módulo **`adder`**: Somador simples.      
+	- Módulo **`adder2`**: Somador completo.      
+	- Módulo **`multiply`**: Multiplicação e resultado das operações `mulh`, `mulhsu` e `mulhu`.      
+	- Módulo **`divide_remainder`**: Divisão e resto da divisão; números inteiros sinalizados e não-sinalizados.            
+	- Módulo **`shift_right_arithmetic`**: Deslocamento aritmético para a direita.      
+	- Módulo **`logical_shift_opers`**: Deslocamento lógico para esquerda e direita.      
+	- Módulo **`set_less_than`**: Operação _Set Less Than_.      
+ - Arquivo **`imem_rf_dmem.v`**: Módulos referentes às memórias da CPU RISC-V.     
+	- Módulo **`reg_file`**: _Register File_ com 32 registradores.      
+	- Módulo **`instr_mem`**: Memória ROM para armazenar os programas. Utiliza os blocos de memória M9K.      
+	- Módulo **`data_mem_single`**: Memória RAM para armazenamento de dados. Utiliza os blocos de memória M9K.     
+ - Arquivo **`alu.sv`**: Contém a ALU (_Arithmetic Logic Unit_) da CPU.    
+	- Módulo **`output_flags_alu`**: Módulo para retornar os _output flags_ das operações da ALU.      
+	- Módulo **`alu`**: ALU implementada na CPU RISC-V.          
+ - Arquivo **`modulos_auxiliares_cpu.sv`**: Módulos cuja implementação é específica para a CPU RISC-V desenvolvida nesse projeto.        
+	- Módulo **`instr_fields`**: Decodifica os campos da instrução de 32 bits da ISA RISC-V.      
+	- Módulo **`extend`**: Preenche o campo referente ao "Valor Imediato" (_Immediate_) da instrução.      
+	- Módulo **`take_branch`**: Indica se a instrução é do tipo _branch_ e se a condição do _branch_ é verdadeira ou falsa.      
+	- Módulo **`main_dec`**: Decodificador principal das instruções.      
+	- Módulo **`alu_dec`**: Decodificador que le os campos da instrução e retorna o código da instrução na ALU.      
+ - Arquivo **`top.sv`**: .     
+	- Módulo **`controller`**: Módulo que contém o decodificador das instruções da CPU.      
+	- Módulo **`datapath`**: Módulo referente ao bloco _Data Path_ da CPU.    
+	- Módulo **`riscv_single`**: Camada superior de uma CPU RISC_V do tipo _single-cycle_.      
+	- Módulo **`main_module`**: Módulo criado dentro do módulo `top`.  
+	- Módulo **`top`**: Módulo principal do projeto.      
+       

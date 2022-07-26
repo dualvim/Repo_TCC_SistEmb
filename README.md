@@ -17,7 +17,14 @@
  - Compilação dos **scripts em Assembly RISC-V**:    
 	- Compilados usando o compilador e simulador **RARS**.       
 	- O RARS é uma ferramenta gratuita e pode ser baixado [aqui](https://github.com/TheThirdOne/rars/releases).     
+ - A **DOCUMENTAÇÃO COMPLETA** de todos os módulos do projeto está disponível na pasta **`DocumentacaoProj`**.      
+	- Nomes dos módulos dentro de cada um dos arquivos do **projeto** da pasta **`Proj_RV32IM_02_De10Lite`**.    
+	- Descrição de cada um dos módulos apresentados.      
+	- Especificação das constantes, entradas e saídas de cada um dos módulos.     
+	- Código do módulo em Verilog ou SystemVerilog.         
           
+
+
 
 # Pastas com os projetos:      
  - Pasta **`Proj_RV32I_01_ALU_RISC-V`**:       
