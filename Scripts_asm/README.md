@@ -1,9 +1,9 @@
 # Scripts em Assembly RISC-V      
          
 
-# 1 - Script ``      
+# 1 - Script `riscvtest.s`      
         
-```r
+```asm
         
 #       RISC-V Assembly         Description               Address   Machine Code
 main:   addi x2, x0, 5          # x2 = 5                  0         00500113   
@@ -32,7 +32,7 @@ done:   beq  x2, x2, done       # infinite loop           50        00210063
 
 # 2 - Script `riscvtest_03B_script3B.s`      
         
-```r
+```asm
         
 # Registradores com os valores usados nas operacoes
 addi x12, x0, 23    # 01700613
@@ -101,7 +101,7 @@ end: beq x0, x0, end   # 00000063
 
 # 3 - Script `Script_teste_01.asm`      
         
-```r
+```asm
         
 # Script_teste_01.asm
 # Inicio
