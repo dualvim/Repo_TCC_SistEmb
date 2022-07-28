@@ -76,29 +76,27 @@
  - Script no **arquivo `Script_teste_01.asm`**:       
         
 ```asm     
-# Script_teste_01.asm
-# Inicio
+#; Script_teste_01.asm
+#; Inicio
 addi x1, x0, 4
-addi x2, x0, 0     # x2 = 0 + 0
-addi x3, x0, 10    # x3 = 0 + 10
-addi x4, x0, 1     # x13 = 0 + 1
+addi x2, x0, 0     #; x2 = 0 + 0
+addi x3, x0, 10    #; x3 = 0 + 10
+addi x4, x0, 1     #; x13 = 0 + 1
 addi x5, x0, 0
-# Bloco 'loop'
+#; Bloco 'loop'
 loop: 
-add x2, x2, x4   # x14 = x13 + x14 
-addi x4, x4, 1    # x4 = x4 + 1
+add x2, x2, x4      #; x14 = x13 + x14 
+addi x4, x4, 1      #; x4 = x4 + 1
 sub x5, x3, x4
 beq x5, x0, label2
-beq x4, x4, loop  # Se x4 < x3, voltar 2 linhas
-# Linhas executadas após a última execução do bloco 'loop'
+beq x4, x4, loop    #; Se x4 < x3, voltar 2 linhas
+#; Linhas executadas após a última execução do bloco 'loop'
 label2:
 addi x6, x0, 0
-add x6, x0, x2    # Copiar para x15 o valor de x14
+add x6, x0, x2      #; Copiar para x15 o valor de x14
 addi x7, x0, 0
-addi x7, x6, -44  # x16 = x15 - 44
-# Valor do registrador x2
-#addi x2, x0, 45
-# Salvar os dados na memoria
+addi x7, x6, -44    #; x16 = x15 - 44
+#; Salvar os dados na memoria
 sw   x1, 0(x1)
 lw  x10, 0(x1)
 sw   x2, 4(x1)
@@ -111,8 +109,8 @@ sw   x7, 20(x1)
 lw  x10, 20(x1)
 sw   x6, 24(x1)
 lw  x10, 24(x1)
-# Bloco 'end'
-end: beq  x0, x0, end     # Encerra o programa
+#; Bloco 'end'
+end: beq  x0, x0, end     #; Encerra o programa
 ```      
        
 ---       
@@ -127,69 +125,68 @@ end: beq  x0, x0, end     # Encerra o programa
  - Script no **arquivo `riscvtest_03B_script3B.s`**:       
         
 ```asm     
-# Registradores com os valores usados nas operacoes
+#; Registradores com os valores usados nas operacoes
 addi x12, x0, 23  # val 1
 addi x13, x0, 3  # val 2
-# Salvar os valores dos registradores
+#; Salvar os valores dos registradores
 sw   x12, 4(x0)
 lw   x3,  4(x0)
 sw   x13, 8(x0)
 lw   x3,  8(x0)
-# Soma
+#; Soma
 add x2, x12, x13
 sw  x2, 12(x0)
 lw  x3, 12(x0)
-# subtracao
+#; subtracao
 sub x2, x12, x13
 sw  x2, 16(x0)
 lw  x3, 16(x0)
-# and
+#; and
 and x2, x12, x13
 sw  x2, 20(x0)
 lw  x3, 20(x0)
-# or
+#; or
 or x2, x12, x13
 sw x2, 24(x0)
 lw x3, 24(x0)
-# xor
+#; xor
 xor x2, x12, x13
 sw  x2, 28(x0)
 lw  x3, 28(x0)
-# sll
+#; sll
 sll x2, x12, x13
 sw  x2, 32(x0)
 lw  x3, 32(x0)
-# srl
+#; srl
 srl x2, x12, x13
 sw x2, 36(x0)
 lw x3, 36(x0)
-# slt
+#; slt
 slt x2, x12, x13
 sw x2, 40(x0)
 lw x3, 40(x0)
-# sra
+#; sra
 sra x2, x12, x13
 sw  x2, 44(x0)
 lw  x3, 44(x0)
-# mul
+#; mul
 mul x2, x12, x13
 sw  x2, 48(x0)
 lw  x3, 48(x0)
-# mulh
+#; mulh
 mulh x2, x12, x13
 sw   x2, 52(x0)
 lw   x3, 52(x0)
-# div
+#; div
 div x2, x12, x13
 sw  x2, 56(x0)
 lw  x3, 56(x0)
-# rem
+#; rem
 rem x2, x12, x13
 sw  x2, 60(x0)
 lw  x3, 60(x0)
-# Bloco 'end'
-end: 
-beq x0, x0, end     # Encerra o programa
+#; Bloco 'end'
+end: beq x0, x0, end     #; Encerra o programa
 ```      
         
 ---       
