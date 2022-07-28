@@ -10,7 +10,6 @@
 		- Total: **64 KiB**.      
 		- **Endereços** de memória de **16 bits**.      
 	
-  
 
 ## 1.1 - Arquivos do Projeto e Módulos Especificados dentro de cada um:       
  - Arquivo **`modulos_basicos.sv`**: Módulos de uso geral, não específicos da CPU RISC-V.        
@@ -41,12 +40,13 @@
 	- Módulo **`take_branch`**: Indica se a instrução é do tipo _branch_ e se a condição do _branch_ é verdadeira ou falsa.      
 	- Módulo **`main_dec`**: Decodificador principal das instruções.      
 	- Módulo **`alu_dec`**: Decodificador que le os campos da instrução e retorna o código da instrução na ALU.      
- - Arquivo **`top.sv`**: .     
+ - Arquivo **`top.sv`**: Arquivo com o módulo principal do projeto.     
 	- Módulo **`controller`**: Módulo que contém o decodificador das instruções da CPU.      
 	- Módulo **`datapath`**: Módulo referente ao bloco _Data Path_ da CPU.    
 	- Módulo **`riscv_single`**: Camada superior de uma CPU RISC_V do tipo _single-cycle_.      
-	- Módulo **`main_module`**: Módulo criado dentro do módulo `top`.  
 	- Módulo **`top`**: Módulo principal do projeto.      
+ - Arquivo **`testbench.sv`**: Arquivo com o _testbench_ do módulo `top`.     
+	- Módulo **`testbench`**: Módulo com o _testbench_ do módulo `top`.      
        
 
 ## 1.2 - Recursos do kit FPGA DE10-Lite usados pelo projeto:       
@@ -54,138 +54,141 @@
          
  - Os dados apresentados aqui foram tirados do **_Compilation Report_** do projeto:        
  - Recursos utilizados do CI FPGA **10M50DAF484C7G**:       
-	- Elementos Lógicos: **5649**.      
-	- Registradores: **1233**.     
-	- Pinos: **41**.     
-	- Bits dos blocos de memória **M9K**: **524256** bits.   
+	- Elementos Lógicos: **5214**.      
+	- Registradores: **1211**.     
+	- Pinos: **67**.     
+	- Bits dos blocos de memória **M9K**: **262,112** bits.   
 	- _Embedded Multiplier 9-bit elements_: **30**.       
 	 
+---       
+         
 
 
-# 2 - Scripts em Assembly RISC-V com os testes realizados com a CPU criada no projeto:        
- - Os scripts em Assembly RISC-V são compilados usando o compilador e simulador RISC-V RARS.        
+# 2 - Código em SystemVerilog do _testbench_:        
        
+```verilog      
+          
+``timescale 1 ps / 1 ps
+
+module testbench();
+	// Constantes
+	parameter ROM_REG_ADDR = 10; // 1024 bytes de memoria ROM
+	parameter RAM_REG_ADDR = 10; // 1024 bytes de memoria RAM
+	
+	// Sinais e arrays usados aqui
+	logic        clk;
+	logic        reset; 
+	logic        MemWrite;
+	logic [31:0] WriteData;
+	logic [31:0] DataAdr;
+	
+	// --> Instancia do modulo principal do projeto
+	top #( .DATA_WIDTH(32), .ADDR_W_ROM(15), .ADDR_W_RAM(13), .HEX_FILE("riscvtest.txt")  ) dut
+	     ( .clk( clk ), 
+		 .reset( reset ), 
+		 .mem_write( MemWrite ),
+		 .write_data( WriteData ), 
+		 .data_addr( DataAdr ) );
+	// Inicializacao dos testes
+	initial begin
+		reset <= 1; 
+		#22; 
+		reset <= 0;
+	end
+	
+	
+	// Geracao dos pulsos de clock usados nos testes sequenciais
+	always begin
+		clk <= 1; 
+		#5; 
+		clk <= 0; 
+		#5;
+	end
+	
+	// --> Variavel do tipo numero inteiro para mostra a iteracao atual
+	integer i = 0;
+	
+	// --> Verificacao dos resultados
+	always @( negedge clk ) begin
+		$monitor("i=%d, MemWrite=%d, WriteData=%d, DataAdr=%d\n", i, MemWrite, WriteData, DataAdr);
+		#5;
+		i = i + 1;
+		#5;
+		
+		if( MemWrite ) begin
+			if( (DataAdr === 100) & (WriteData === 25) ) begin
+				$display("Simulation succeeded");
+				$stop;
+			end 
+			else if( DataAdr !== 96 ) begin
+				$display("Simulation failed");
+				$stop;
+			end
+		end
+	end
+endmodule
+```       
+              
+---       
+         
 
 
-# 2.1 - Teste 1: Script `Script_teste_01.asm`        
-| Resultado no Kit DE10-Lite | _In System Memory_ |      
-| :---: | :---: |
-| ![Fig 1](./Documentacao_Resultados/Img_Proj01.jpg) | ![Fig 2](./Documentacao_Resultados/Out_01_InSystemMemory_Script1.jpg) |
+# 3 - Simulação no ModelSim:        
+        
+
+## 3.1 - Arquivos com a simulação no ModelSim         
+ - Nome do projeto: **`Simulacao_MS.mpf`**.     
+ - Pasta com os arquivosd a simulação: **`work`**.       
+ - Arquivo onde os resultados da simulação no ModelSim foram salvos: **`./Documentacao_Resultados/WaveformSimulacao.vcd`**
+ - Arquivos usados na simulação (e ordem de compilação):       
+	- **0** - **`altera_mf.v`**: Biblioteca da Intel/Altera para poder usar a memória RAM na simulação.      
+	- **1** - **`modulos_basicos.sv`**.      
+	- **2** - **`imem_rf_dmem.v`**.      
+	- **3** - **`modulos_auxiliares_cpu.sv`**.      
+	- **4** - **`alu.sv`**.      
+	- **5** - **`top.sv`**.      
+	- **6** - **`testbench.sv`**.      
+        
+---       
+         
+
+
+## 3.2 - Resultados da simulação no ModelSim:      
            
- - Script no **arquivo `Script_teste_01.asm`**:       
+
+### 3.2.1- Comando TCL da Simulação Realizada no ModelSim:       
+         
+```tcl      
         
-```asm     
-# Script_teste_01.asm
-# Inicio
-addi x1, x0, 4
-addi x2, x0, 0     # x2 = 0 + 0
-addi x3, x0, 10    # x3 = 0 + 10
-addi x4, x0, 1     # x13 = 0 + 1
-addi x5, x0, 0
-# Bloco 'loop'
-loop: 
-add x2, x2, x4   # x14 = x13 + x14 
-addi x4, x4, 1    # x4 = x4 + 1
-sub x5, x3, x4
-beq x5, x0, label2
-beq x4, x4, loop  # Se x4 < x3, voltar 2 linhas
-# Linhas executadas após a última execução do bloco 'loop'
-label2:
-addi x6, x0, 0
-add x6, x0, x2    # Copiar para x15 o valor de x14
-addi x7, x0, 0
-addi x7, x6, -44  # x16 = x15 - 44
-# Valor do registrador x2
-#addi x2, x0, 45
-# Salvar os dados na memoria
-sw   x1, 0(x1)
-lw  x10, 0(x1)
-sw   x2, 4(x1)
-lw  x10, 4(x1)
-sw   x3, 8(x1)
-lw  x10, 8(x1)
-sw   x4, 12(x1)
-lw  x10, 12(x1)
-sw   x7, 20(x1)
-lw  x10, 20(x1)
-sw   x6, 24(x1)
-lw  x10, 24(x1)
-# Bloco 'end'
-end: beq  x0, x0, end     # Encerra o programa
-```      
-       
+##########################
+# Executar a simulação   #
+##########################
+VSIM> run 200
 
 
-# 2.2 - Teste 1: Script `riscvtest_03B_script3B.s`        
-| Resultado no Kit DE10-Lite | _In System Memory_ |      
-| :---: | :---: |
-| ![Fig 3](./Documentacao_Resultados/Img_Proj02.jpg) | ![Fig 4](./Documentacao_Resultados/Out_02_InSystemMemory_Script2.jpg) |
-           
- - Script no **arquivo `riscvtest_03B_script3B.s`**:       
-        
-```asm     
-# Registradores com os valores usados nas operacoes
-addi x12, x0, 23  # val 1
-addi x13, x0, 3  # val 2
-# Salvar os valores dos registradores
-sw   x12, 4(x0)
-lw   x3,  4(x0)
-sw   x13, 8(x0)
-lw   x3,  8(x0)
-# Soma
-add x2, x12, x13
-sw  x2, 12(x0)
-lw  x3, 12(x0)
-# subtracao
-sub x2, x12, x13
-sw  x2, 16(x0)
-lw  x3, 16(x0)
-# and
-and x2, x12, x13
-sw  x2, 20(x0)
-lw  x3, 20(x0)
-# or
-or x2, x12, x13
-sw x2, 24(x0)
-lw x3, 24(x0)
-# xor
-xor x2, x12, x13
-sw  x2, 28(x0)
-lw  x3, 28(x0)
-# sll
-sll x2, x12, x13
-sw  x2, 32(x0)
-lw  x3, 32(x0)
-# srl
-srl x2, x12, x13
-sw x2, 36(x0)
-lw x3, 36(x0)
-# slt
-slt x2, x12, x13
-sw x2, 40(x0)
-lw x3, 40(x0)
-# sra
-sra x2, x12, x13
-sw  x2, 44(x0)
-lw  x3, 44(x0)
-# mul
-mul x2, x12, x13
-sw  x2, 48(x0)
-lw  x3, 48(x0)
-# mulh
-mulh x2, x12, x13
-sw   x2, 52(x0)
-lw   x3, 52(x0)
-# div
-div x2, x12, x13
-sw  x2, 56(x0)
-lw  x3, 56(x0)
-# rem
-rem x2, x12, x13
-sw  x2, 60(x0)
-lw  x3, 60(x0)
-# Bloco 'end'
-end: 
-beq x0, x0, end     # Encerra o programa
-```      
-        
+###############################
+#  Resultado da simulação     #
+###############################
+# Simulation succeeded
+# ** Note: $stop    : C:/Users/Eduardo/Desktop/Especializacao_SENAI/PosGrad_Senai_SistEmbarc/M13_Monografia/Repo_TCC_SistEmb/Proj_RV32IM_02_De10Lite/testbench.sv(60)
+#    Time: 195 ps  Iteration: 0  Instance: /testbench
+# Break in Module testbench at C:/Users/Eduardo/Desktop/Especializacao_SENAI/PosGrad_Senai_SistEmbarc/M13_Monografia/Repo_TCC_SistEmb/Proj_RV32IM_02_De10Lite/testbench.sv line 60
+```     
+         
+---       
+         
+
+
+### 3.2.2 - Gráfico do ModelSim com o _Waveform_ da Simulação        
+![_Waveform_ ModelSim](./Documentacao_Resultados/Out_01_WaveformModelSim.jpg)        
+         
+---       
+         
+
+
+### 3.2.3 - Gráfico do GtkWave com o _Waveform_ da Simulação        
+![_Waveform_ GtkWave](./Documentacao_Resultados/Out_02_WaveformModelSim.png)        
+         
+---       
+         
+

@@ -1,0 +1,138 @@
+$date
+	Thu Jul 28 06:38:42 2022
+$end
+$version
+	ModelSim Version 2020.1
+$end
+$timescale
+	1ps
+$end
+$scope module testbench $end
+$var reg 1 ! clk $end
+$var reg 1 " reset $end
+$var reg 1 # MemWrite $end
+$var reg 32 $ DataAdr [31:0] $end
+$var reg 32 % WriteData [31:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+b1 !
+b1 "
+b0 #
+b101 $
+bx %
+b101 $
+b1 "
+b1 !
+b0 #
+#5
+b0 !
+#10
+b1 !
+#15
+b0 !
+#20
+b1 !
+#22
+b0 "
+#25
+b0 !
+#30
+b1 !
+b1100 $
+#35
+b0 !
+#40
+b1 !
+b11 $
+#45
+b0 !
+#50
+b1 !
+b101 %
+b111 $
+#55
+b0 !
+#60
+b1 !
+b111 %
+b100 $
+#65
+b0 !
+#70
+b1 !
+b1011 $
+#75
+b0 !
+#80
+b1 !
+b1000 $
+b11 %
+#85
+b0 !
+#90
+b1 !
+b111 %
+b0 $
+#95
+b0 !
+#100
+b1 !
+b0 %
+#105
+b0 !
+#110
+b1 !
+b101 %
+b1 $
+#115
+b0 !
+#120
+b1 !
+b1011 %
+b1100 $
+#125
+b0 !
+#130
+b1 !
+b101 %
+b111 $
+#135
+b0 !
+#140
+b1 !
+b1100000 $
+b1 #
+b111 %
+#145
+b0 !
+#150
+b1 !
+b0 #
+bx %
+b1100000 $
+#155
+b0 !
+#160
+b1 !
+b1011 %
+b10010 $
+#165
+b0 !
+#170
+b1 !
+bx %
+bx $
+#175
+b0 !
+#180
+b1 !
+b10010 %
+b11001 $
+#185
+b0 !
+#190
+b1 !
+b1100100 $
+b1 #
+b11001 %

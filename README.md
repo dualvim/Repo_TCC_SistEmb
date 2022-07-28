@@ -32,7 +32,13 @@
 	- Os testes das instruçõesx processadas na ALU são realizados de forma manual (ver o vídeo).       
  - Pasta **`Proj_RV32IM_02_De10Lite`**:     
 	- Implementação da CPU RISC-V com o conjunto de instruções **RV32IM**.     
-	- O código não está 100%, mas todo o conteúdo prioritário está pronto e fiuncionando.      
+	- O código não está 100%, mas todo o conteúdo prioritário está pronto e funcionando.      
+	- Os testes do código são realizados por meio do arquivo `testbench.sv`.      
+	- Esse projeto é testado no ModelSim.      
+- Pasta **`Proj_RV32IM_03_De10Lite`**:     
+	- Implementação da CPU RISC-V com o conjunto de instruções **RV32IM**.     
+	- Esse projeto inclui o carregamento dos programas em Assembly RISC-V na memória de programa.      
+	- Esse projeto é carregado no kit FPGA e o conteúdo da RAM verificado na ferramenta "_In-System Memory Content Editor_" do Quartus.      
  - Pasta **`Scripts_asm`**:     
 	- Scripts em Assembly RISC-V com programas usados para testar os projeto que cria uma CPU RISC-V.         
 	- Os arquivos com os programas compilados foram gerados por meio do software RARS.       

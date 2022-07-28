@@ -9,9 +9,68 @@
 
 
 // --> top - Módulo principal do projeto //////////////////////////////////////////////
+module top ( input  logic       MAX10_CLK1_50,
+		 output logic [7:0] HEX0, HEX1, HEX3, HEX4, HEX5 );
+//---------------------------------------------------------------------------------------
+	// --> Constantes:
+	parameter RST = 1'b0;
+	
+	// Sinais e variaveis usadas aqui:
+	logic        MemWrite;
+	logic [31:0] WriteData;
+	logic [31:0] DataAdr;
+      // --> Instanciacao de um processador RISC-V Single-Cycle
+      main_module #( .DATA_WIDTH(32), .ADDR_W_ROM(15), .ADDR_W_RAM(13), .HEX_FILE("Script_teste_01.txt") ) dut1
+	//main_module #( .DATA_WIDTH(32), .ADDR_W_ROM(15), .ADDR_W_RAM(13), .HEX_FILE("riscvtest_03B_script3B.txt") ) dut1
+		       ( .clk( MAX10_CLK1_50 ), 
+		         .reset( RST ), 
+		         .mem_write( MemWrite ),
+		         .write_data( WriteData ), 
+		         .data_addr( DataAdr ));
+	
+	
+	/**************
+	** Depuracao **
+	**************/
+	// Valores dos digitos a serem escritos nos displays de 7 segmentos
+	logic [3:0] dg0, dg1, dg3, dg4, dg5;
+	logic [9:0] dt_addr, wr_dt;
+	
+	// Valores:
+	always_ff @( negedge MAX10_CLK1_50 ) begin
+		//dt_addr <= DataAdr[9:0];
+		//wr_dt <= WriteData[9:0];
+		
+		if( MemWrite ) begin
+			dt_addr <= DataAdr[9:0];
+			wr_dt <= WriteData[9:0];
+		end
+	end
+	
+	// Digitos referentes ao endereco
+	assign dg5 = (dt_addr[9:0] / 100);
+	assign dg4 = (dt_addr[9:0] / 10) - ((dt_addr / 100) * 10'd10);
+	assign dg3 = (dt_addr[9:0] % 10);
+	
+	// Digitos referentes ao valor
+	assign dg1 = (wr_dt[9:0] / 10);
+	assign dg0 = (wr_dt[9:0] % 10);
+	
+	// Inserir os digitos nos displays de 7 segmentos
+	dig_displ_7_segs dig_addr_2 ( .digit(dg5), .segs_dsp(HEX5) );
+	dig_displ_7_segs dig_addr_1 ( .digit(dg4), .segs_dsp(HEX4) );
+	dig_displ_7_segs dig_addr_0 ( .digit(dg3), .segs_dsp(HEX3) );
+	
+	dig_displ_7_segs dig_val_1 ( .digit(dg1), .segs_dsp(HEX1) );
+	dig_displ_7_segs dig_val_0 ( .digit(dg0), .segs_dsp(HEX0) );
+endmodule
+
+
+
+
 // main_module: Modulo que cria um nucleo RISC-V ////////////////
-module top #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1,  parameter ADDR_W_ROM=15,  
-		          parameter ADDR_W_RAM=13, parameter HEX_FILE="riscvtest.txt" )
+module main_module #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1,  parameter ADDR_W_ROM=10,  
+		          parameter ADDR_W_RAM=10, parameter HEX_FILE="riscvtest.txt" )
                     ( input  logic             clk,  
                       input  logic             reset, 
                       output logic             mem_write,
