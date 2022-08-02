@@ -20,8 +20,8 @@ module top ( input  logic       MAX10_CLK1_50,
 	logic [31:0] WriteData;
 	logic [31:0] DataAdr;
       // --> Instanciacao de um processador RISC-V Single-Cycle
-      main_module #( .DATA_WIDTH(32), .ADDR_W_ROM(15), .ADDR_W_RAM(13), .HEX_FILE("Script_teste_01.txt") ) dut1
-	//main_module #( .DATA_WIDTH(32), .ADDR_W_ROM(15), .ADDR_W_RAM(13), .HEX_FILE("riscvtest_03B_script3B.txt") ) dut1
+      //main_module #( .DATA_WIDTH(32), .ADDR_W_ROM(15), .ADDR_W_RAM(13), .HEX_FILE("Script_teste_01.txt") ) dut1
+	main_module #( .DATA_WIDTH(32), .ADDR_W_ROM(10), .ADDR_W_RAM(10), .HEX_FILE("Script_teste_02.txt") ) dut1
 		       ( .clk( MAX10_CLK1_50 ), 
 		         .reset( RST ), 
 		         .mem_write( MemWrite ),
@@ -48,13 +48,13 @@ module top ( input  logic       MAX10_CLK1_50,
 	end
 	
 	// Digitos referentes ao endereco
-	assign dg5 = (dt_addr[9:0] / 100);
-	assign dg4 = (dt_addr[9:0] / 10) - ((dt_addr / 100) * 10'd10);
-	assign dg3 = (dt_addr[9:0] % 10);
+	assign dg5 = (dt_addr[9:0] / 10'd100);
+	assign dg4 = (dt_addr[9:0] / 10'd10) - ((dt_addr / 10'd100) * 10'd10);
+	assign dg3 = (dt_addr[9:0] % 10'd10);
 	
 	// Digitos referentes ao valor
-	assign dg1 = (wr_dt[9:0] / 10);
-	assign dg0 = (wr_dt[9:0] % 10);
+	assign dg1 = (wr_dt[9:0] / 10'd10);
+	assign dg0 = (wr_dt[9:0] % 10'd10);
 	
 	// Inserir os digitos nos displays de 7 segmentos
 	dig_displ_7_segs dig_addr_2 ( .digit(dg5), .segs_dsp(HEX5) );
@@ -63,6 +63,7 @@ module top ( input  logic       MAX10_CLK1_50,
 	
 	dig_displ_7_segs dig_val_1 ( .digit(dg1), .segs_dsp(HEX1) );
 	dig_displ_7_segs dig_val_0 ( .digit(dg0), .segs_dsp(HEX0) );
+	
 endmodule
 
 

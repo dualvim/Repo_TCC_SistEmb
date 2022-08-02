@@ -1,10 +1,9 @@
 # Repositório com os projetos pertinentes à monografia em Sistemas Embarcados        
- - Arquivos referentes ao projeto da **MONOGRAFIA** do aluno **Eduardo Alvim Guedes Alcoforado**.      
+ - Arquivos referentes ao projeto da **MONOGRAFIA** do aluno **Eduardo Alvim Guedes Alcoforado** ([Currículo Lattes](http://lattes.cnpq.br/0205554239317512)).      
  - Titulo do trabalho: "**Utilização de FPGA no Desenvolvimento de um Microcontrolador de 32 Bits com Arquitetura RISC-V e Conjunto de instruções RV32IM**".       
  - Faculdade de Tecnologia **SENAI "Anchieta"**.     
  - Curso de **Pós-Graduação em Sistemas Embarcados** - **Turma 6** - **6SE**.      
- - Orientador: **Prof. Dr. Leandro Poloni Dantas**.      
- - **Currículo Lattes** [Eduardo Alvim](http://lattes.cnpq.br/0205554239317512).         
+ - Orientador: **Prof. Dr. Leandro Poloni Dantas** ([Currículo Lattes](http://lattes.cnpq.br/6255986062207024)).      
            
 
 # Projetos disponíveis nesse repositório:      
@@ -33,8 +32,8 @@
  - Pasta **`Proj_RV32IM_02_De10Lite`**:     
 	- Implementação da CPU RISC-V com o conjunto de instruções **RV32IM**.     
 	- O código não está 100%, mas todo o conteúdo prioritário está pronto e funcionando.      
-	- Os testes do código são realizados por meio do arquivo `testbench.sv`.      
-	- Esse projeto é testado no ModelSim.      
+	- Os **testes** do hardware implementado são realizados por meio do arquivo **`testbench.sv`**.      
+	- **Esse projeto é testado no ModelSim**.      
 - Pasta **`Proj_RV32IM_03_De10Lite`**:     
 	- Implementação da CPU RISC-V com o conjunto de instruções **RV32IM**.     
 	- Esse projeto inclui o carregamento dos programas em Assembly RISC-V na memória de programa.      

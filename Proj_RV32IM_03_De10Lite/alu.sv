@@ -65,7 +65,7 @@ module alu #( parameter DATA_WIDTH = 32, parameter END_IDX=DATA_WIDTH-1 )
 	logic [END_IDX:0] res_and, res_or, res_xor;
 	logic [END_IDX:0] sltu_rslt, slt_rslt, sra_rslt;
 	logic [END_IDX:0] prod_result, prod_high_ss, prod_high_su, prod_high_uu;
-	logic [END_IDX:0] quotient, quotient_u, remainder, remainder_u;
+	logic [END_IDX:0] quotient, remainder;
 	logic [END_IDX:0] left_shift_res, right_shift_res, lui_value; //, auipc_value;
 	
 	
@@ -128,11 +128,11 @@ module alu #( parameter DATA_WIDTH = 32, parameter END_IDX=DATA_WIDTH-1 )
 			.prod_high_uu(prod_high_uu) );
 	
 	// --> Operacoes 'div', 'divu', 'rem' e 'remu'
-	divide_remainder #( .DATA_WIDTH(DATA_WIDTH) ) div_rem_s
-		                 ( .operand_1(src1_value), 
-				       .operand_2(src2_value), 
-				       .quotient(quotient), 
-				       .remainder(remainder) );
+	divide_remainder #( .DATA_WIDTH(DATA_WIDTH) ) div_rem_u
+		            ( .operand_1(src1_value), 
+				  .operand_2(src2_value), 
+				  .quotient(quotient), 
+				  .remainder(remainder) );
 	
 	// --> Valor da operacao 'lui'
 	assign lui_value = { src2_value[31:12], {12 { 1'b0 }} };

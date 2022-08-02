@@ -205,19 +205,6 @@ module divide_remainder #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH
 endmodule
 
 
-// --> divide_remainder Unsigned////////////////////////////////////////////////////////////////////////////////
-module divide_remainder_unsigned #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1 )
-		                      ( input  logic [END_IDX:0] operand_1,
-		                        input  logic [END_IDX:0] operand_2,
-			                  output logic [END_IDX:0] quotient,
-				            output logic [END_IDX:0] remainder );
-//------------------------------------------------------------------------------------------
-	logic [END_IDX:0] q, r;
-	assign q = $unsigned(operand_1) / $unsigned(operand_2);
-	assign r = $unsigned(operand_1) % $unsigned(operand_2);
-	assign quotient = q[END_IDX:0];
-	assign remainder = r[END_IDX:0];
-endmodule
 
 
 /***************************************************
