@@ -4,7 +4,7 @@
  - Faculdade de Tecnologia **SENAI "Anchieta"**.     
  - Curso de **Pós-Graduação em Sistemas Embarcados** - **Turma 6** - **6SE**.      
  - Orientador: **Prof. Dr. Leandro Poloni Dantas** ([Currículo Lattes](http://lattes.cnpq.br/6255986062207024)).      
- - Arquivo **`Artigo_EduardoAlvim_V09_ABNT_final.pdf`**: Arquivo com o artigo entregue para a banca de defesa.       
+ - Arquivo **`Artigo_EduardoAlvim_V10_ABNT_final.pdf`**: Arquivo com o artigo entregue para a banca de defesa.       
            
 
 # Projetos disponíveis nesse repositório:      
