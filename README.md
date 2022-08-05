@@ -4,6 +4,7 @@
  - Faculdade de Tecnologia **SENAI "Anchieta"**.     
  - Curso de **Pós-Graduação em Sistemas Embarcados** - **Turma 6** - **6SE**.      
  - Orientador: **Prof. Dr. Leandro Poloni Dantas** ([Currículo Lattes](http://lattes.cnpq.br/6255986062207024)).      
+ - Arquivo **`Artigo_EduardoAlvim_V09_ABNT_final.pdf`**: Arquivo com o artigo entregue para a banca de defesa.       
            
 
 # Projetos disponíveis nesse repositório:      
@@ -22,8 +23,6 @@
 	- Especificação das constantes, entradas e saídas de cada um dos módulos.     
 	- Código do módulo em Verilog ou SystemVerilog.         
           
-
-
 
 # Pastas com os projetos:      
  - Pasta **`Proj_RV32I_01_ALU_RISC-V`**:       
@@ -44,6 +43,13 @@
 	 
 ---      
         
+# Agradecimentos:      
+ - [Diego Salviano Nagai](https://github.com/diegonagai), da 7a urma da Pós-Graduação em Sistemas Embarcados (7SE).        
+        
+	 
+---      
+        
+	 
 |    |    |
 | :---: | :---: |
 | ![SENAI](./Imagens/Logo_SENAI.jpg) | ![RISC-V](./Imagens/logo_riscv.png) |
