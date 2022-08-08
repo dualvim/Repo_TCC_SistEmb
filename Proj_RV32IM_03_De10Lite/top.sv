@@ -63,7 +63,6 @@ module top ( input  logic       MAX10_CLK1_50,
 	
 	dig_displ_7_segs dig_val_1 ( .digit(dg1), .segs_dsp(HEX1) );
 	dig_displ_7_segs dig_val_0 ( .digit(dg0), .segs_dsp(HEX0) );
-	
 endmodule
 
 
