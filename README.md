@@ -37,7 +37,13 @@
 	- Implementação da CPU RISC-V com o conjunto de instruções **RV32IM**.     
 	- Esse projeto inclui o carregamento dos programas em Assembly RISC-V na memória de programa.      
 	- Esse projeto é carregado no kit FPGA e o conteúdo da RAM verificado na ferramenta "_In-System Memory Content Editor_" do Quartus.      
- - Pasta **`Scripts_asm`**:     
+ - Pasta **`Proj_RV32IM_04_De10Lite_V2`**:       
+	- Modificação do projeto 3, usando módulos baseados em IPs (_Intellectual Properties_) do Quartus.        
+	- Os módulos criados com base em IPs são os módulos referentes às operações de multiplicação e divisão.       
+- Pasta **`Proj_RV32IM_05_De10Lite_Full`**:       
+	- Ainda **não terminado**.         
+	- Tentativa de completar os recursos da CPU RISC-V abordada aqui.       
+- Pasta **`Scripts_asm`**:     
 	- Scripts em Assembly RISC-V com programas usados para testar os projeto que cria uma CPU RISC-V.         
 	- Os arquivos com os programas compilados foram gerados por meio do software RARS.       
 	 
