@@ -27,6 +27,7 @@ module reg_file #( parameter DATA_WIDTH = 32, parameter END_IDX=DATA_WIDTH-1 )
     // --> Matriz com os 32 REGISTRADORES que compõe o register file 
     // Sobre a expressao '(* ramstyle = "logic" *)': Mandar criar o register file usando os elementos llogicos (mais rapido)
     (* ramstyle = "logic" *) reg [END_IDX:0] RF [31:0];
+    //(* ramstyle = "M9K" *) reg [END_IDX:0] RF [31:0];
 
     // --> Register file com 3 ports
     // Os 2 ports de leitura são lidos usando lógica combinacional (r_addr1/r_data1, r_addr2/r_data2)
@@ -55,7 +56,6 @@ module instr_mem #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1, par
                     output wire [END_IDX:0] instr );
 //---------------------------------------------------------------------------------------------------------
 	parameter N_WORDS = (2**ADDR_WIDTH)-1;
-	parameter LAST_ADDR = ADDR_WIDTH-1;
 	
 	// --> Matriz com a 'instruction memory'
 	// Sobre a expressao '(* ramstyle = "M9K" *)': Mandar implementar a ROM nos blocos de memoria M9K do kit FPGA
@@ -66,12 +66,8 @@ module instr_mem #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1, par
             $readmemh(HEX_FILE, ROM);
       end
 	
-	// --> Endereco de leitura/escrita com 'ADDR_WIDTH' bits
-	wire [LAST_ADDR:0] address_div4;
-	assign address_div4 = { 2'b00, addr[LAST_ADDR:2] };
-	
-	// --> Atribuir a 'instr' o valor em 'address_div4'
-	assign instr = ROM[ address_div4 ];
+	// --> Atribuir a 'instr' o valor em 'addr'
+	assign instr = ROM[ { 2'b00, addr[END_IDX:2] } ];
 endmodule
 
 
@@ -87,9 +83,9 @@ endmodule
 module data_mem_single #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1, parameter ADDR_WIDTH=10 )
 	                  ( clk, w_en, addr, w_data, r_data );
 //-----------------------------------------------------------------------------------
-	input	                    clk;
-	input	                    w_en;
-	input  [(ADDR_WIDTH-1):0] addr;
+	input	             clk;
+	input	             w_en;
+	input  [END_IDX:0] addr;
 	input	 [END_IDX:0] w_data;
 	output [END_IDX:0] r_data;
 	
@@ -108,11 +104,11 @@ module data_mem_single #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-
 	
 	// --> Endereco de leitura/escrita com 'ADDR_WIDTH' bits
 	wire [LAST_ADDR:0] address_div4;
-	assign address_div4 = { 2'b00, addr[LAST_ADDR:2] };
+	assign address_div4 = { 2'b00, addr[END_IDX:2] };
 	
 	wire [END_IDX:0] sub_wire0;
-	//wire [END_IDX:0] r_data = sub_wire0[(DATA_WIDTH-1):0];
-	assign r_data = sub_wire0[END_IDX:0];
+	wire [END_IDX:0] r_data = sub_wire0[END_IDX:0];
+	//assign r_data = sub_wire0[END_IDX:0];
 	
 	// --> Instanciacao da memoria
 	altsyncram	altsyncram_component (

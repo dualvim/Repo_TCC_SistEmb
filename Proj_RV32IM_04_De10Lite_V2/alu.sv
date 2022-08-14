@@ -211,8 +211,8 @@ module alu #( parameter DATA_WIDTH = 32, parameter END_IDX=DATA_WIDTH-1 )
 	logic             cout;       // Bit de carry out
 	logic [END_IDX:0] res_and, res_or, res_xor;
 	logic [END_IDX:0] sltu_rslt, slt_rslt, sra_rslt;
-	logic [END_IDX:0] prod_result, prod_high_ss, prod_high_su, prod_high_uu;
-	logic [END_IDX:0] quotient, remainder;
+	logic [END_IDX:0] prod_result_u, prod_result_s, prod_high_ss, prod_high_su, prod_high_uu;
+	logic [END_IDX:0] quotient_s, remainder_s, quotient_u, remainder_u;
 	logic [END_IDX:0] left_shift_res, right_shift_res, lui_value; //, auipc_value;
 	
 	
@@ -266,6 +266,18 @@ module alu #( parameter DATA_WIDTH = 32, parameter END_IDX=DATA_WIDTH-1 )
 			     .slt_rslt(slt_rslt) );
 	
 	// --> Operacoes 'mul'/'mulh'/'mulhsu'/'mulhu'
+	Mult1Unsigned #( .DATA_WIDTH(DATA_WIDTH) ) mult_unsign
+ 	               ( .dataa(src1_value),
+			     .datab(src2_value),
+			     .prod(prod_result_u),
+			     .upper_prod(prod_high_uu) );
+			     
+	Mult2Signed   #( .DATA_WIDTH(DATA_WIDTH) ) mult_sign
+ 	               ( .dataa(src1_value),
+			     .datab(src2_value),
+			     .prod(prod_result_s),
+			     .upper_prod(prod_high_ss) );
+	/*
 	multiply #( .DATA_WIDTH(DATA_WIDTH) ) multiplicador
 		    ( .op_val1(src1_value), 
 		      .op_val2(src2_value), 
@@ -273,51 +285,50 @@ module alu #( parameter DATA_WIDTH = 32, parameter END_IDX=DATA_WIDTH-1 )
 			.prod_high_ss(prod_high_ss),
 		      .prod_high_su(prod_high_su), 
 			.prod_high_uu(prod_high_uu) );
+	*/
 	
 	// --> Operacoes 'div', 'divu', 'rem' e 'remu'
-	divide_remainder #( .DATA_WIDTH(DATA_WIDTH) ) div_rem_u
-		            ( .operand_1(src1_value), 
-				  .operand_2(src2_value), 
-				  .quotient(quotient), 
-				  .remainder(remainder) );
+	Div1Unsigned #( .DATA_WIDTH(DATA_WIDTH) ) div_unsign
+	              ( .denom(src2_value),
+	   	          .numer(src1_value),
+			    .quotient(quotient_u),
+			    .remain(remainder_u) );
+			    
+	Div2Signed #( .DATA_WIDTH(DATA_WIDTH) ) div_sign
+	            ( .denom(src2_value),
+	   	        .numer(src1_value),
+			  .quotient(quotient_s),
+			  .remain(remainder_s) );
 	
 	// --> Valor da operacao 'lui'
 	assign lui_value = { src2_value[31:12], {12 { 1'b0 }} };
-	
-	// --> Valor da operacao 'AUIPC'
-	/*
-	adder #( .DATA_WIDTH(DATA_WIDTH) ) somador_auipc
-             ( .op_val1(pc), 
-               .op_val2(src2_value),
-               .sum_result(auipc_value) );
-	*/
 	
 	
 	// --> Selecionar o output indicado em 'alu_ctrl'
       always_comb begin
             case( alu_ctrl )
                   // --> Instrucoes aritmeticas nos formatos R-Type ou I-Type
-			5'b00000:  result = sum[END_IDX:0];             // 'add'/'addi'
-                  5'b00001:  result = sum[END_IDX:0];             // 'sub'
-                  5'b00010:  result = res_and[END_IDX:0];         // 'and'/'andi'
-			5'b00011:  result = res_or[END_IDX:0];          // 'or'/'ori'
-			5'b00100:  result = res_xor[END_IDX:0];         // 'xor'/'xori'
-			5'b00101:  result = left_shift_res[END_IDX:0];  // 'sll'/'slli'
-			5'b00110:  result = right_shift_res[END_IDX:0]; // 'srl'/'srli'
-			5'b00111:  result = slt_rslt[END_IDX:0];        // 'slt'/'slti'
-			5'b01000:  result = sltu_rslt[END_IDX:0];       // 'sltu'/'sltui'
-			5'b01001:  result = sra_rslt[END_IDX:0];        // 'sra'/'srai'
+			5'b00000:  result = sum;             // 'add'/'addi'
+                  5'b00001:  result = sum;             // 'sub'
+                  5'b00010:  result = res_and;         // 'and'/'andi'
+			5'b00011:  result = res_or;          // 'or'/'ori'
+			5'b00100:  result = res_xor;         // 'xor'/'xori'
+			5'b00101:  result = left_shift_res;  // 'sll'/'slli'
+			5'b00110:  result = right_shift_res; // 'srl'/'srli'
+			5'b00111:  result = slt_rslt;        // 'slt'/'slti'
+			5'b01000:  result = sltu_rslt;       // 'sltu'/'sltui'
+			5'b01001:  result = sra_rslt;        // 'sra'/'srai'
 			5'b01010:  result = lui_value;       // 'lui'
 			//5'b01011:  result = auipc_value;     // 'auipc'
 			// --> Multiplicacao/Divisao
-			5'b10010:  result = prod_result[END_IDX:0];   // 'mul'
-			5'b10011:  result = prod_high_ss[END_IDX:0];  // 'mulh'
-			5'b10100:  result = prod_high_su[END_IDX:0];  // 'mulhsu
-			5'b10101:  result = prod_high_uu[END_IDX:0];  // 'mulhu'
-			5'b10110:  result = quotient[END_IDX:0];      // 'div'
-			5'b10111:  result = quotient[END_IDX:0];      // 'divu'
-			5'b11000:  result = remainder[END_IDX:0];     // 'rem'
-			5'b11001:  result = remainder[END_IDX:0];     // 'remu		   
+			5'b10010:  result = prod_result_s;   // 'mul'
+			5'b10011:  result = prod_high_ss;  // 'mulh'
+			5'b10100:  result = prod_high_ss;  // 'mulhsu
+			5'b10101:  result = prod_high_uu;  // 'mulhu'
+			5'b10110:  result = quotient_s;      // 'div'
+			5'b10111:  result = quotient_u;      // 'divu'
+			5'b11000:  result = remainder_s;     // 'rem'
+			5'b11001:  result = remainder_u;     // 'remu		   
 			default:   result = NULL_VAL;      // Caso padrao                
             endcase
       end

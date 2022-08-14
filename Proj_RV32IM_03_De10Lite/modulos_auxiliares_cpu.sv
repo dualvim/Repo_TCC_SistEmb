@@ -8,7 +8,6 @@
 */
 
 
-
 /***********************
 ** Campos Instrucao   **
 ***********************/
@@ -64,9 +63,10 @@ endmodule
 
 
 
-/***************************
-** Immedate Extender      **
-***************************/
+
+/***********************
+** Extend             **
+***********************/
 // Extend /////////////////////////////////////////////////////////////////////////////////
 module extend ( input  logic [31:7] instr,
                 input  logic [2:0]  imm_src,
@@ -82,34 +82,6 @@ module extend ( input  logic [31:7] instr,
 			default:  imm_ext = { 32 { 1'bx } }; // undefined
             endcase
       end
-endmodule
-
-
-
-
-/*******************************
-** Take Branch                **
-*******************************/
-module take_branch #( parameter DATA_WIDTH = 32, parameter END_IDX=DATA_WIDTH-1 )
-                    ( input  logic [END_IDX:0] src1_value,   // Primeiro operando. Valor no registrador 'rs1'.
-			    input  logic [END_IDX:0] src2_value,   // Segundo operando. Valor no registrador 'rs2' ou 'Valor Imediato' (immediate)
-		          input  logic [      4:0] alu_control,  // Codigo da instrucao executada na ALU
-		          output logic             taken_br );   // Indica a ocorrencia de branching
-//---------------------------------------------------------------------------------------
-	always_comb begin
-		case( alu_control ) 
-			// Instrucao 'beq'
-			5'b01111: taken_br = (src1_value == src2_value); 
-			// Instrucao 'bne'
-			5'b10000: taken_br = (src1_value != src2_value); 
-			// Instrucao 'blt' ou 'bltu'
-			5'b10001: taken_br = (src1_value < src2_value) ^ (src1_value[END_IDX] != src2_value[END_IDX]); 
-			// Instrucao 'bge' ou 'bgeu'
-			5'b10010: taken_br = (src1_value >= src2_value) ^ (src1_value[END_IDX] != src2_value[END_IDX]);  
-			// Caso padrao
-			default:  taken_br = 1'b0; 
-		endcase
-	end
 endmodule
 
 

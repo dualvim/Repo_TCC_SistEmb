@@ -1,3 +1,25 @@
+# Limpar as words da memoria RAM
+sw x0, 0(x0)
+sw x0, 4(x0)
+sw x0, 8(x0)
+sw x0, 12(x0)
+sw x0, 16(x0)
+sw x0, 20(x0)
+sw x0, 24(x0)
+sw x0, 28(x0)
+sw x0, 32(x0)
+sw x0, 36(x0)
+sw x0, 40(x0)
+sw x0, 44(x0)
+sw x0, 48(x0)
+sw x0, 52(x0)
+sw x0, 56(x0)
+sw x0, 60(x0)
+sw x0, 64(x0)
+sw x0, 68(x0)
+sw x0, 72(x0)
+sw x0, 76(x0)
+sw x0, 80(x0)
 # Registradores com os valores usados nas operacoes
 addi x12, x0, 23  # val 1
 addi x13, x0, 3  # val 2
@@ -59,4 +81,5 @@ rem x2, x12, x13
 sw  x2, 64(x0)
 lw  x3, 64(x0)
 # Bloco 'end'
-end: beq x0, x0, end     # Encerra o programa
+end: 
+bge x0, x0, end     # Encerra o programa

@@ -7,9 +7,9 @@
 **
 */
 
-
 // --> top - Módulo principal do projeto //////////////////////////////////////////////
 module top ( input  logic       MAX10_CLK1_50,
+		 input  logic [9:0] SW,
 		 output logic [7:0] HEX0, HEX1, HEX3, HEX4, HEX5 );
 //---------------------------------------------------------------------------------------
 	// --> Constantes:
@@ -20,13 +20,13 @@ module top ( input  logic       MAX10_CLK1_50,
 	logic [31:0] WriteData;
 	logic [31:0] DataAdr;
       // --> Instanciacao de um processador RISC-V Single-Cycle
-      main_module #( .DATA_WIDTH(32), .ADDR_W_ROM(15), .ADDR_W_RAM(13), .HEX_FILE("Script_teste_01.txt") ) dut1
-	//main_module #( .DATA_WIDTH(32), .ADDR_W_ROM(10), .ADDR_W_RAM(10), .HEX_FILE("Script_teste_02.txt") ) dut1
-		       ( .clk( MAX10_CLK1_50 ), 
-		         .reset( RST ), 
-		         .mem_write( MemWrite ),
-		         .write_data( WriteData ), 
-		         .data_addr( DataAdr ));
+      //principal #( .DATA_WIDTH(32), .ADDR_W_ROM(10), .ADDR_W_RAM(10), .HEX_FILE("Script_teste_01.txt") ) dut1
+	principal #( .DATA_WIDTH(32), .ADDR_W_ROM(10), .ADDR_W_RAM(10), .HEX_FILE("Script_teste_02.txt") ) dut1
+		     ( .clk( MAX10_CLK1_50 ), 
+		       .reset( RST ), 
+		       .mem_write( MemWrite ),
+		       .write_data( WriteData ), 
+		       .data_addr( DataAdr ));
 	
 	
 	/**************
@@ -36,25 +36,29 @@ module top ( input  logic       MAX10_CLK1_50,
 	logic [3:0] dg0, dg1, dg3, dg4, dg5;
 	logic [9:0] dt_addr, wr_dt;
 	
+	//assign DataAdr = SW;
+	
 	// Valores:
-	always_ff @( negedge MAX10_CLK1_50 ) begin
+	always_ff @( posedge MAX10_CLK1_50 ) begin
 		//dt_addr <= DataAdr[9:0];
 		//wr_dt <= WriteData[9:0];
 		
 		if( MemWrite ) begin
-			dt_addr <= DataAdr[9:0];
+			dt_addr <= 10'd96;
 			wr_dt <= WriteData[9:0];
 		end
+		
 	end
 	
+	
 	// Digitos referentes ao endereco
-	assign dg5 = (dt_addr[9:0] / 10'd100);
-	assign dg4 = (dt_addr[9:0] / 10'd10) - ((dt_addr / 10'd100) * 10'd10);
-	assign dg3 = (dt_addr[9:0] % 10'd10);
+	assign dg5 = (dt_addr / 10'd100);
+	assign dg4 = (dt_addr / 10'd10) - ((DataAdr / 10'd100) * 10'd10);
+	assign dg3 = (dt_addr % 10'd10);
 	
 	// Digitos referentes ao valor
-	assign dg1 = (wr_dt[9:0] / 10'd10);
-	assign dg0 = (wr_dt[9:0] % 10'd10);
+	assign dg1 = (wr_dt / 10'd10);
+	assign dg0 = (wr_dt % 10'd10);
 	
 	// Inserir os digitos nos displays de 7 segmentos
 	dig_displ_7_segs dig_addr_2 ( .digit(dg5), .segs_dsp(HEX5) );
@@ -67,15 +71,14 @@ endmodule
 
 
 
-
-// main_module: Modulo que cria um nucleo RISC-V ////////////////
-module main_module #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1,  parameter ADDR_W_ROM=10,  
-		          parameter ADDR_W_RAM=10, parameter HEX_FILE="riscvtest.txt" )
-                    ( input  logic             clk,  
-                      input  logic             reset, 
-                      output logic             mem_write,
-                      output logic [END_IDX:0] write_data, 
-                      output logic [END_IDX:0] data_addr );
+// Principal  ///////////////////////////////
+module principal #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1,  parameter ADDR_W_ROM=10,  
+		        parameter ADDR_W_RAM=10, parameter HEX_FILE="riscvtest.txt" )
+                  ( input  logic             clk,  
+                    input  logic             reset, 
+                    output logic             mem_write,
+                    output logic [END_IDX:0] write_data, 
+                    output logic [END_IDX:0] data_addr );
 //---------------------------------------------------------------------------------------
 	// Sinais e variaveis usadas aqui:
 	logic [31:0]      instr;
@@ -107,7 +110,6 @@ module main_module #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1,  
                          .w_data( write_data ), 
                          .r_data( read_data ) );
 endmodule
-
 
 
 
@@ -234,7 +236,6 @@ endmodule
 
 
 
-			    
 
 // Data Path //////////////////////////////////////////////////////////////////////////
 module datapath #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1 )
@@ -265,14 +266,11 @@ module datapath #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1 )
 	// Arrays usados nos modulos instanciados abaixo
 	logic [END_IDX:0] pc_next, pc_plus4, pc_target; 
       logic [END_IDX:0] imm_ext, src_a, src_b, result;
-	logic taken_br, branch;
 	
 	
 	/**************************
       ** Next PC logic         **
 	**************************/
-	assign branch = taken_br || pc_src;
-	
 	ff_rst #( .DATA_WIDTH(DATA_WIDTH) ) pcreg
               ( .clk( clk ), 
                 .reset( reset ), 
@@ -289,18 +287,11 @@ module datapath #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1 )
                .op_val2( imm_ext ), 
                .sum_result( pc_target ) );
       
-      take_branch #( .DATA_WIDTH(DATA_WIDTH) ) tk_br
-			 ( .src1_value( src_a ), 
-			   .src2_value( src_b ),
-			   .alu_control( alu_ctrl ),
-			   .taken_br( taken_br ));
-	
-      mux2 #( .DATA_WIDTH(DATA_WIDTH) ) pcmux
-            ( .d0( pc_plus4 ), 
-              .d1( pc_target ), 
-              //.sel( pc_src ), 
-              .sel( branch ),
-		  .y( pc_next ) );
+       mux2 #( .DATA_WIDTH(DATA_WIDTH) ) pcmux
+             ( .d0( pc_plus4 ), 
+               .d1( pc_target ), 
+               .sel( pc_src ), 
+               .y( pc_next ) );
 	
 	
       /**************************
@@ -352,7 +343,6 @@ module datapath #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-1 )
 		  .sel( result_src ), 
               .y( result ) );
 endmodule
-
 
 
 

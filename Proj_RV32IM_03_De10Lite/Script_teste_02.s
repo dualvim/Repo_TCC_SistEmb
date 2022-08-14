@@ -81,4 +81,5 @@ rem x2, x12, x13
 sw  x2, 64(x0)
 lw  x3, 64(x0)
 # Bloco 'end'
-end: beq x0, x0, end     # Encerra o programa
+end: 
+bge x0, x0, end     # Encerra o programa
