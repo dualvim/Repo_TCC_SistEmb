@@ -4,12 +4,12 @@ editor_options:
   markdown:
     mode: gfm
 output:
-  pdf_document: default
   html_document:
     includes:
       in_header: C:/Programacao/Markdown/header.html
     highlight: pygments
     css: C:/Programacao/Markdown/Estilo_docs_Rmarkdown2.css
+  pdf_document: default
 ---       
          
 <style type="text/css">

@@ -140,6 +140,7 @@ module data_mem_single #( parameter DATA_WIDTH=32, parameter END_IDX=DATA_WIDTH-
 	defparam
 		altsyncram_component.clock_enable_input_a = "BYPASS",
 		altsyncram_component.clock_enable_output_a = "BYPASS",
+		//altsyncram_component.intended_device_family = "Cyclone IV E",                  // Sera utilizado um CI FPGA da familia 'Cyclone IV'
 		altsyncram_component.intended_device_family = "MAX 10",                      // Sera utilizado um CI FPGA da familia 'MAX 10' 
 		altsyncram_component.lpm_hint = "ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=1234",
 		altsyncram_component.lpm_type = "altsyncram",
